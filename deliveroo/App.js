@@ -11,7 +11,9 @@ export default function App() {
           alt="developer"
         />
         <Text className="text-lg">Hi, I'm fikri</Text>
-        <Text className="text-xs text-gray-400">22 years old</Text>
+        <Text className="text-xs text-gray-400 text-center">
+          22 years old IT guy at Government Organization
+        </Text>
         <Text className="text-xs text-gray-600 text-center">
           I love learning IT stuff, esp on full-stack web dev, data engineering,
           Tasks automation, system design and machine learning
