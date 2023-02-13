@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -28,40 +28,61 @@ const navigationOptions = {
 };
 
 const Screen = ({ navigation }) => {
-  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [carouselIndex, setCarouselIndex] = useState(null);
   const windowWidth = Dimensions.get("window").width;
   const [categoriesWidth, setCategoriesWidth] = useState(null);
   const [position, setPosition] = useState(null);
   const [totalIndex, setTotalIndex] = useState(null);
   const [carouselPointer, setCarouselPointer] = useState(null);
+  const scrollViewRef = useRef();
 
   useLayoutEffect(() => {
     navigation.setOptions(navigationOptions);
   }, []);
 
   useEffect(() => {
-    tempCarPointer = () => {
-      let comps = [];
-      console.log("fdsafdsvafd");
-      for (let i; i < totalIndex; i++) {
-        console.log(comps);
-        comps.push(
-          <View
-            className={
-              "rounded-full h-2 w-2 " + i == carouselIndex
-                ? "bg-green-500"
-                : "bg-gray-400"
-            }
-          ></View>
-        );
-      }
-      return comps;
-    };
-    setCarouselPointer(
-      categoriesWidth ? (
-        <View className="flex-row space-x-2 px-4">{tempCarPointer()}</View>
-      ) : null
+    let comps = new Array(totalIndex);
+    // tempItems = comps.map((item, index) => {
+    //   console.log(item == carouselIndex);
+    //   return (
+    //     <View
+    //       className={
+    //         "rounded-full h-2 w-2 " + index == carouselIndex
+    //           ? "bg-green-500"
+    //           : "bg-gray-400"
+    //       }
+    //     >
+    //       {carouselIndex}
+    //     </View>
+    //   );
+    // });
+    let data = [];
+    for (let i = 0; i < totalIndex; i++) {
+      data.push(i);
+    }
+    tempComp = (
+      <View className="flex-row space-x-2 px-4">
+        {data.map((item, idx) => {
+          return (
+            <TouchableOpacity
+              key={idx}
+              className={`${
+                idx == carouselIndex
+                  ? "bg-green-500 text-green-500"
+                  : "bg-gray-400 text-gray-400"
+              } rounded-full h-2 w-2`}
+              onPress={(e) => {
+                setCarouselIndex(idx);
+                scrollViewRef.current?.scrollTo({
+                  x: idx * windowWidth,
+                });
+              }}
+            ></TouchableOpacity>
+          );
+        })}
+      </View>
     );
+    setCarouselPointer(() => tempComp);
   }, [carouselIndex]);
 
   const handleScroll = (e) => {
@@ -104,13 +125,13 @@ const Screen = ({ navigation }) => {
               horizontal={true}
               style="none"
               showsHorizontalScrollIndicator={false}
-              scrollEventThrottle={16}
               onScroll={handleScroll}
-              onContentSizeChange={(width, height) => {
-                // const numIndex = Math.ceil(windowWidth / width);
-                // setCarouselIndex(numIndex);
+              ref={scrollViewRef}
+              onContentSizeChange={(width, _) => {
                 setCategoriesWidth(width);
+                console.log(width);
                 setTotalIndex(Math.ceil(width / windowWidth) || 0);
+                setCarouselIndex(0);
               }}
             >
               <TouchableOpacity className="h-24 w-36 rounded-lg bg-cyan-400 p-2">
@@ -142,10 +163,10 @@ const Screen = ({ navigation }) => {
             {/* carousel index */}
             {carouselPointer}
 
-            <Text>
+            {/* <Text>
               position {position}, categoriesWidth {categoriesWidth},
               carouselIndex{carouselIndex}
-            </Text>
+            </Text> */}
           </View>
         </SafeAreaView>
 
@@ -165,7 +186,7 @@ const Screen = ({ navigation }) => {
         </View>
         {/* categories */}
         <View className="space-x-2">
-          <Grid nRow={2} />
+          <Grid nRow={1} />
         </View>
 
         {/* Walktrough */}
