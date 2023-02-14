@@ -74,10 +74,10 @@ const Carousel = ({ children }) => {
 
         {/* carousel index */}
         {carouselPointer}
-        <Text>{seconds} fvdsavfa</Text>
+        {/* <Text>{seconds} fvdsavfa</Text>
         <TouchableOpacity onPress={() => setSeconds((prev) => prev + 1)}>
           <Text>mulai waktu</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </SafeAreaView>
   );

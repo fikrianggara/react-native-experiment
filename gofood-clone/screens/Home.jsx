@@ -1,10 +1,9 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect } from "react";
 import {
   SafeAreaView,
   ScrollView,
   Text,
   TextInput,
-  Dimensions,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -20,8 +19,8 @@ import {
   HeartIcon,
   TicketIcon,
 } from "react-native-heroicons/solid";
-import Carousel from "../components/Carousel";
 import { Atc } from "../components/Card";
+import Carousel from "../components/Carousel";
 import Grid from "../components/Grid";
 
 const navigationOptions = {
@@ -39,7 +38,6 @@ const Screen = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions(navigationOptions);
   }, []);
-
   return (
     <View className="pt-6 bg-white">
       {/* header */}
