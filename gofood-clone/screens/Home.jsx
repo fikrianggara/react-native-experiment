@@ -20,76 +20,25 @@ import {
   HeartIcon,
   TicketIcon,
 } from "react-native-heroicons/solid";
-
+import Carousel from "../components/Carousel";
+import { Atc } from "../components/Card";
 import Grid from "../components/Grid";
 
 const navigationOptions = {
   headerShown: false,
 };
 
-const Screen = ({ navigation }) => {
-  const [carouselIndex, setCarouselIndex] = useState(null);
-  const windowWidth = Dimensions.get("window").width;
-  const [categoriesWidth, setCategoriesWidth] = useState(null);
-  const [position, setPosition] = useState(null);
-  const [totalIndex, setTotalIndex] = useState(null);
-  const [carouselPointer, setCarouselPointer] = useState(null);
-  const scrollViewRef = useRef();
+const atcData = [
+  { title: "Gofood belum tersedia di tempa anda", color: "#f87171" },
+  { title: "Nantikan kehadiran kami", color: "#f97316" },
+  { title: "Kami tidak sabar bertemu anda", color: "#f59e0b" },
+  { title: "Hooh tenan", color: "#65a30d" },
+];
 
+const Screen = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions(navigationOptions);
   }, []);
-
-  useEffect(() => {
-    let comps = new Array(totalIndex);
-    // tempItems = comps.map((item, index) => {
-    //   console.log(item == carouselIndex);
-    //   return (
-    //     <View
-    //       className={
-    //         "rounded-full h-2 w-2 " + index == carouselIndex
-    //           ? "bg-green-500"
-    //           : "bg-gray-400"
-    //       }
-    //     >
-    //       {carouselIndex}
-    //     </View>
-    //   );
-    // });
-    let data = [];
-    for (let i = 0; i < totalIndex; i++) {
-      data.push(i);
-    }
-    tempComp = (
-      <View className="flex-row space-x-2 px-4">
-        {data.map((item, idx) => {
-          return (
-            <TouchableOpacity
-              key={idx}
-              className={`${
-                idx == carouselIndex
-                  ? "bg-green-500 text-green-500"
-                  : "bg-gray-400 text-gray-400"
-              } rounded-full h-2 w-2`}
-              onPress={(e) => {
-                setCarouselIndex(idx);
-                scrollViewRef.current?.scrollTo({
-                  x: idx * windowWidth,
-                });
-              }}
-            ></TouchableOpacity>
-          );
-        })}
-      </View>
-    );
-    setCarouselPointer(() => tempComp);
-  }, [carouselIndex]);
-
-  const handleScroll = (e) => {
-    const position = e.nativeEvent.contentOffset.x;
-    const index = Math.ceil(position / windowWidth);
-    setCarouselIndex(index);
-  };
 
   return (
     <View className="pt-6 bg-white">
@@ -118,60 +67,14 @@ const Screen = ({ navigation }) => {
       </View>
       <ScrollView showVerticalScrollIndicator={false} className="space-y-2">
         {/* atc */}
-        <SafeAreaView>
-          <View className="py-4 space-y-2">
-            <ScrollView
-              className="flex-row space-x-2 pl-4"
-              horizontal={true}
-              style="none"
-              showsHorizontalScrollIndicator={false}
-              onScroll={handleScroll}
-              ref={scrollViewRef}
-              onContentSizeChange={(width, _) => {
-                setCategoriesWidth(width);
-                console.log(width);
-                setTotalIndex(Math.ceil(width / windowWidth) || 0);
-                setCarouselIndex(0);
-              }}
-            >
-              <TouchableOpacity className="h-24 w-36 rounded-lg bg-cyan-400 p-2">
-                <Text className="text-white font-medium">Seafood</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="h-24 w-36 rounded-lg bg-lime-500 p-2">
-                <Text className="text-white font-medium">Western</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="h-24 w-36 rounded-lg bg-orange-500 p-2">
-                <Text className="text-white font-medium">Eastern</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="h-24 w-36 rounded-lg bg-pink-500 p-2">
-                <Text className="text-white font-medium">Eastern</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="h-24 w-36 rounded-lg bg-cyan-400 p-2">
-                <Text className="text-white font-medium">Seafood</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="h-24 w-36 rounded-lg bg-lime-500 p-2">
-                <Text className="text-white font-medium">Western</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="h-24 w-36 rounded-lg bg-orange-500 p-2">
-                <Text className="text-white font-medium">Eastern</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="h-24 w-36 rounded-lg bg-pink-500 p-2">
-                <Text className="text-white font-medium">Eastern</Text>
-              </TouchableOpacity>
-            </ScrollView>
-
-            {/* carousel index */}
-            {carouselPointer}
-
-            {/* <Text>
-              position {position}, categoriesWidth {categoriesWidth},
-              carouselIndex{carouselIndex}
-            </Text> */}
-          </View>
-        </SafeAreaView>
+        <Carousel>
+          {atcData.map((item, idx) => (
+            <Atc key={idx} data={item} />
+          ))}
+        </Carousel>
 
         {/* promo */}
-        <View className="p-4">
+        <View className="p-4 ">
           <View className="border-[1px] rounded-xl border-gray-200 p-3 flex-row space-x-2 items-center">
             <View className="flex-row flex-1 space-x-2 items-center">
               <View className="bg-yellow-300 h-8 aspect-square flex-row items-center rounded-full p-2">
@@ -186,7 +89,7 @@ const Screen = ({ navigation }) => {
         </View>
         {/* categories */}
         <View className="space-x-2">
-          <Grid nRow={1} />
+          <Grid nRow={2} />
         </View>
 
         {/* Walktrough */}

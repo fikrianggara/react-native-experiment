@@ -15,20 +15,13 @@ const styles = {
     marginHorizontal: "auto",
     width: 400,
   },
-  // flex: 3, // the number of columns you want to devide the screen into
-  // marginHorizontal: "auto",
-  // item: {
-  //   flex: 1,
-  //   maxWidth: "33.3%", // 100% devided by the number of rows you want
-  //   alignItems: "center",
-  // },
 };
 
 // RN Code
 const Item = ({ item }) => {
   return (
     <View className="space-y-2 items-center w-24 my-2">
-      <TouchableOpacity className="p-2 rounded-xl border-[1px] border-gray-300 w-20 h-20"></TouchableOpacity>
+      <TouchableOpacity className="p-2 rounded-xl border-[1px] border-gray-300 w-20 h-20 "></TouchableOpacity>
       <Text className="text-gray-700 text-xs" numberOfLines={1}>
         {item.id}-{item.title}
       </Text>
