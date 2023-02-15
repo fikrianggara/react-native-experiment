@@ -13,7 +13,6 @@ const Carousel = ({ children }) => {
   const windowWidth = Dimensions.get("window").width;
   const [totalIndex, setTotalIndex] = useState(null);
   const [carouselPointer, setCarouselPointer] = useState(null);
-  const [seconds, setSeconds] = useState(0);
 
   const scrollViewRef = useRef();
 
@@ -25,7 +24,7 @@ const Carousel = ({ children }) => {
       data.push(i);
     }
     tempComp = (
-      <View className="flex-row space-x-2 px-4 items-center">
+      <View className="flex-row space-x-2 pl-4 items-center">
         {data.map((item, idx) => {
           return (
             <TouchableOpacity
@@ -34,7 +33,7 @@ const Carousel = ({ children }) => {
                 idx == carouselIndex
                   ? "bg-green-500 text-green-500 h-3 w-3 "
                   : "bg-gray-400 text-gray-400 h-2 w-2"
-              } rounded-full duration-200 ease-in-out`}
+              } rounded-full duration-50 ease-in-out`}
               onPress={(e) => {
                 setCarouselIndex(idx);
                 scrollViewRef.current?.scrollTo({
@@ -56,28 +55,22 @@ const Carousel = ({ children }) => {
   };
   return (
     <SafeAreaView>
-      <View className="py-4 space-y-2">
+      <View className="ml-4 py-2 space-y-4">
         <ScrollView
-          className="flex-row space-x-2 px-4"
+          className="flex-row space-x-4"
           horizontal={true}
-          style="none"
           showsHorizontalScrollIndicator={false}
           onScroll={handleScroll}
           ref={scrollViewRef}
           onContentSizeChange={(width, _) => {
-            setTotalIndex(Math.ceil(width / windowWidth) || 0);
+            setTotalIndex(Math.ceil(width / windowWidth) - 1 || 0);
             setCarouselIndex(0);
           }}
         >
           {children}
         </ScrollView>
 
-        {/* carousel index */}
         {carouselPointer}
-        {/* <Text>{seconds} fvdsavfa</Text>
-        <TouchableOpacity onPress={() => setSeconds((prev) => prev + 1)}>
-          <Text>mulai waktu</Text>
-        </TouchableOpacity> */}
       </View>
     </SafeAreaView>
   );

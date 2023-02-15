@@ -1,33 +1,7 @@
 import React from "react";
-import {
-  View,
-  Image,
-  FlatList,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
-
-const styles = {
-  app: {
-    flex: 4, // the number of columns you want to devide the screen into
-    marginHorizontal: "auto",
-    width: 400,
-  },
-};
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 // RN Code
-const Item = ({ item }) => {
-  return (
-    <View className="space-y-2 items-center w-24 my-2">
-      <TouchableOpacity className="p-2 rounded-xl border-[1px] border-gray-300 w-20 h-20 "></TouchableOpacity>
-      <Text className="text-gray-700 text-xs" numberOfLines={1}>
-        {item.id}-{item.title}
-      </Text>
-    </View>
-  );
-};
 
 // Sample Data
 const itemData = [
@@ -89,26 +63,20 @@ const makeNRowArray = (arr, nRow) => {
   return result;
 };
 
-function Container(props) {
+function Container({ itemData, nRow, Component }) {
   return (
     <View className="p-2 ">
-      {/* <FlatList
-        data={itemData}
-        // numColumns={3}
-        renderItem={Item}
-        horizontal={true}
-        keyExtractor={() => "" + Math.random()}
-      /> */}
       <ScrollView
         horizontal
         className="flex-row"
         showsHorizontalScrollIndicator={false}
       >
-        {makeNRowArray(itemData, props.nRow).map((row, index) => {
+        {/* {children} */}
+        {makeNRowArray(itemData, nRow).map((row, index) => {
           return (
             <View key={index} className="space-x-4 flex-1">
               {row.map((item, index) => (
-                <Item key={index} item={item} />
+                <Component key={index} item={item} />
               ))}
             </View>
           );

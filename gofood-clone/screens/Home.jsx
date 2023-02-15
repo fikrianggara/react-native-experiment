@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -19,25 +19,109 @@ import {
   HeartIcon,
   TicketIcon,
 } from "react-native-heroicons/solid";
-import { Atc } from "../components/Card";
+import { Atc, Category } from "../components/Card";
 import Carousel from "../components/Carousel";
 import Grid from "../components/Grid";
+import sanityClient from "../sanity";
 
 const navigationOptions = {
   headerShown: false,
 };
 
 const atcData = [
-  { title: "Gofood belum tersedia di tempa anda", color: "#f87171" },
-  { title: "Nantikan kehadiran kami", color: "#f97316" },
-  { title: "Kami tidak sabar bertemu anda", color: "#f59e0b" },
-  { title: "Hooh tenan", color: "#65a30d" },
+  {
+    title: "Gofood belum tersedia di tempat anda",
+    color: "#f87171",
+    source: "order-food-online-1.png",
+  },
+  {
+    title: "Nantikan kehadiran kami",
+    color: "#f97316",
+    source: "order-food-online-3.png",
+  },
+  {
+    title: "Kami tidak sabar bertemu anda",
+    color: "#f59e0b",
+    source: "sharing-pizza.png",
+  },
+  {
+    title: "Segera!",
+    color: "#65a30d",
+    source: "coffee-tea-3.png",
+  },
+];
+
+const itemData = [
+  {
+    id: 1,
+    title: "Terdekat",
+  },
+  {
+    id: 2,
+    title: "Promosi",
+  },
+  {
+    id: 3,
+    title: "Populer",
+  },
+  {
+    id: 4,
+    title: "Makan malam fvdsa vfdsa vfdsav fdsva fdsav",
+  },
+  {
+    id: 5,
+    title: "Paling laku",
+  },
+  {
+    id: 6,
+    title: "Vegan",
+  },
+  {
+    id: 7,
+    title: "Seafood",
+  },
+  {
+    id: 8,
+    title: "Lainnya",
+  },
+  {
+    id: 9,
+    title: "Seafood",
+  },
+  {
+    id: 10,
+    title: "Lainnya",
+  },
+  {
+    id: 11,
+    title: "Lainnya",
+  },
 ];
 
 const Screen = ({ navigation }) => {
+  const [featuredCategories, setFeaturedCategories] = useState([]);
   useLayoutEffect(() => {
     navigation.setOptions(navigationOptions);
   }, []);
+
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `
+    *[_type=='featured']{
+  ...,
+  restaurants[]->{
+    ...,
+    dishes[]->
+  },
+}`
+      )
+      .then((data) => {
+        setFeaturedCategories(data);
+      });
+  }, []);
+  console.log(featuredCategories);
+
   return (
     <View className="pt-6 bg-white">
       {/* header */}
@@ -75,7 +159,7 @@ const Screen = ({ navigation }) => {
         <View className="p-4 ">
           <View className="border-[1px] rounded-xl border-gray-200 p-3 flex-row space-x-2 items-center">
             <View className="flex-row flex-1 space-x-2 items-center">
-              <View className="bg-yellow-300 h-8 aspect-square flex-row items-center rounded-full p-2">
+              <View className="bg-yellow-200 h-8 aspect-square flex-row items-center rounded-full p-2">
                 <TicketIcon color="red" size={20} rotation={45} />
               </View>
               <Text>Tersedia 1 Promo</Text>
@@ -87,7 +171,11 @@ const Screen = ({ navigation }) => {
         </View>
         {/* categories */}
         <View className="space-x-2">
-          <Grid nRow={2} />
+          <Grid
+            nRow={featuredCategories.length >= 6 ? 2 : 1}
+            Component={Category}
+            itemData={featuredCategories}
+          />
         </View>
 
         {/* Walktrough */}
