@@ -1,3 +1,3 @@
 # react-native-exploration
 
-repo to learn react native
+repo to learn react native, sanity CMS
