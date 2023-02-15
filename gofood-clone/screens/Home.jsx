@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
+  Image,
   SafeAreaView,
   ScrollView,
   Text,
@@ -22,7 +23,7 @@ import {
 import { Atc, Category } from "../components/Card";
 import Carousel from "../components/Carousel";
 import Grid from "../components/Grid";
-import sanityClient from "../sanity";
+import sanityClient, { urlFor } from "../sanity";
 
 const navigationOptions = {
   headerShown: false,
@@ -32,69 +33,22 @@ const atcData = [
   {
     title: "Gofood belum tersedia di tempat anda",
     color: "#f87171",
-    source: "order-food-online-1.png",
+    source: require("../assets/order-food-online-1.png"),
   },
   {
     title: "Nantikan kehadiran kami",
     color: "#f97316",
-    source: "order-food-online-3.png",
+    source: require("../assets/order-food-online-3.png"),
   },
   {
     title: "Kami tidak sabar bertemu anda",
     color: "#f59e0b",
-    source: "sharing-pizza.png",
+    source: require("../assets/sharing-pizza.png"),
   },
   {
     title: "Segera!",
     color: "#65a30d",
-    source: "coffee-tea-3.png",
-  },
-];
-
-const itemData = [
-  {
-    id: 1,
-    title: "Terdekat",
-  },
-  {
-    id: 2,
-    title: "Promosi",
-  },
-  {
-    id: 3,
-    title: "Populer",
-  },
-  {
-    id: 4,
-    title: "Makan malam fvdsa vfdsa vfdsav fdsva fdsav",
-  },
-  {
-    id: 5,
-    title: "Paling laku",
-  },
-  {
-    id: 6,
-    title: "Vegan",
-  },
-  {
-    id: 7,
-    title: "Seafood",
-  },
-  {
-    id: 8,
-    title: "Lainnya",
-  },
-  {
-    id: 9,
-    title: "Seafood",
-  },
-  {
-    id: 10,
-    title: "Lainnya",
-  },
-  {
-    id: 11,
-    title: "Lainnya",
+    source: require("../assets/coffee-tea-3.png"),
   },
 ];
 
@@ -120,18 +74,17 @@ const Screen = ({ navigation }) => {
         setFeaturedCategories(data);
       });
   }, []);
-  console.log(featuredCategories);
 
   return (
-    <View className="pt-6 bg-white">
+    <View className="pt-2 bg-white">
       {/* header */}
-      <View>
+      <View className="pt-6">
         <View className="bg-white flex-row items-center space-x-2 p-2">
           <XMarkIcon size={24} color="gray" fontWeight={40} />
           <View className="flex-1">
             <View className="flex-row items-center">
               <Text className="font-bold text-lg text-gray-700">
-                WTC Batanghari
+                Tidak tersedia
               </Text>
               <ChevronDownIcon size={20} color="#22d3ee" />
             </View>
@@ -147,7 +100,7 @@ const Screen = ({ navigation }) => {
           </View>
         </View>
       </View>
-      <ScrollView showVerticalScrollIndicator={false} className="space-y-2">
+      <ScrollView showVerticalScrollIndicator={false} className="">
         {/* atc */}
         <Carousel>
           {atcData.map((item, idx) => (
@@ -156,7 +109,7 @@ const Screen = ({ navigation }) => {
         </Carousel>
 
         {/* promo */}
-        <View className="p-4 ">
+        <View className="p-2 px-4 ">
           <View className="border-[1px] rounded-xl border-gray-200 p-3 flex-row space-x-2 items-center">
             <View className="flex-row flex-1 space-x-2 items-center">
               <View className="bg-yellow-200 h-8 aspect-square flex-row items-center rounded-full p-2">
@@ -179,7 +132,7 @@ const Screen = ({ navigation }) => {
         </View>
 
         {/* Walktrough */}
-        <View className="p-4">
+        <View className="p-2 px-4">
           <View className="border-[1px] rounded-xl border-gray-200 p-3 flex-row space-x-2 items-center drop-shadow">
             <View className="flex-1">
               <Text className="font-bold ">Baru di GoFood?</Text>
@@ -192,6 +145,48 @@ const Screen = ({ navigation }) => {
             </View>
           </View>
         </View>
+
+        {/* featured 1 */}
+        <View className="p-4 ">
+          <Text className="font-medium w-[75%] text-lg leading-normal">
+            Rating tertinggi berdasarkan reviewer makanan
+          </Text>
+          <Text className="text-gray-400">Sponsor</Text>
+        </View>
+        <ScrollView
+          className="flex-row space-x-4 px-4 min-h-[50px]"
+          horizontal={true}
+          style="none"
+          showsHorizontalScrollIndicator={false}
+        >
+          {featuredCategories.length > 0 &&
+            featuredCategories[0].restaurants.map((restaurant) => (
+              <View
+                key={restaurant._id}
+                className="w-48 h-fit bg-white rounded-xl mb-2 shadow shadow-gray-400"
+              >
+                <Image
+                  source={{ uri: urlFor(restaurant.image).url() }}
+                  className="bg-slate-600 h-36 rounded-xl"
+                ></Image>
+                <View className="p-2">
+                  <Text className="font-bold text-gray-600">
+                    {restaurant.name}
+                  </Text>
+                  <View className="flex-row items-center">
+                    <StarIcon size={16} color="#4b5563" />
+                    <Text className="text-">{restaurant.rating}</Text>
+                  </View>
+                  <View className="flex-row items-center space-x-2">
+                    <MapPinIcon size={16} color="#9ca3af" />
+                    <Text className="text-xs text-gray-400">
+                      {restaurant.address}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            ))}
+        </ScrollView>
 
         {/* choose from cuisine */}
 
@@ -240,96 +235,6 @@ const Screen = ({ navigation }) => {
             </ScrollView>
           </View>
         </SafeAreaView>
-
-        {/* featured 1 */}
-        <View className="p-4">
-          <Text className="font-medium w-[75%]">
-            Rating tertinggi berdasarkan reviewer makanan
-          </Text>
-          <Text className="text-gray-400">Sponsor</Text>
-        </View>
-        <ScrollView
-          className="flex-row space-x-4 px-4"
-          horizontal={true}
-          style="none"
-          showsHorizontalScrollIndicator={false}
-        >
-          <View className="h-fit w-48 bg-white rounded-xl shadow mb-2">
-            <View className="bg-slate-600 h-36 rounded-xl"></View>
-            <View className="p-2">
-              <Text className="font-bold text-gray-600">Warung Bang wan</Text>
-              <View className="flex-row items-center">
-                <StarIcon size={16} color="#4b5563" />
-                <Text className="text-">4.6</Text>
-              </View>
-              <View className="flex-row items-center space-x-2">
-                <MapPinIcon size={16} color="#9ca3af" />
-                <Text className="text-xs text-gray-400">blablalba</Text>
-                <Text className="text-xs">2.6 KM</Text>
-              </View>
-            </View>
-          </View>
-          <View className="h-fit w-48 bg-white rounded-xl shadow mb-2">
-            <View className="bg-sky-600 h-36 rounded-xl"></View>
-            <View className="p-2">
-              <Text className="font-bold text-gray-600">KFC, WTC jambi</Text>
-              <View className="flex-row items-center">
-                <StarIcon size={16} color="#4b5563" />
-                <Text className="text-">4.7</Text>
-              </View>
-              <View className="flex-row items-center space-x-2">
-                <MapPinIcon size={16} color="#9ca3af" />
-                <Text className="text-xs text-gray-400">blablalba</Text>
-                <Text className="text-xs">0.6 KM</Text>
-              </View>
-            </View>
-          </View>
-          <View className="h-fit w-48 bg-white rounded-xl shadow mb-2">
-            <View className="bg-red-700 h-36 rounded-xl"></View>
-            <View className="p-2">
-              <Text className="font-bold text-gray-600">Ichiban Sushi</Text>
-              <View className="flex-row items-center">
-                <StarIcon size={16} color="#4b5563" />
-                <Text className="text-">4.5</Text>
-              </View>
-              <View className="flex-row items-center space-x-2">
-                <MapPinIcon size={16} color="#9ca3af" />
-                <Text className="text-xs text-gray-400">blablalba</Text>
-                <Text className="text-xs">2.6 KM</Text>
-              </View>
-            </View>
-          </View>
-          <View className="h-fit w-48 bg-white rounded-xl shadow mb-2">
-            <View className="bg-amber-600 h-36 rounded-xl"></View>
-            <View className="p-2">
-              <Text className="font-bold text-gray-600">Sate Padang Medan</Text>
-              <View className="flex-row items-center">
-                <StarIcon size={16} color="#4b5563" />
-                <Text className="text-">4.6</Text>
-              </View>
-              <View className="flex-row items-center space-x-2">
-                <MapPinIcon size={16} color="#9ca3af" />
-                <Text className="text-xs text-gray-400">blablalba</Text>
-                <Text className="text-xs">2.6 KM</Text>
-              </View>
-            </View>
-          </View>
-          <View className="h-fit w-48 bg-white rounded-xl shadow mb-2">
-            <View className="bg-gray-500 h-36 rounded-xl"></View>
-            <View className="p-2">
-              <Text className="font-bold text-gray-600">Foresthree</Text>
-              <View className="flex-row items-center">
-                <StarIcon size={16} color="#4b5563" />
-                <Text className="text-">4.6</Text>
-              </View>
-              <View className="flex-row items-center space-x-2">
-                <MapPinIcon size={16} color="#9ca3af" />
-                <Text className="text-xs text-gray-400">blablalba</Text>
-                <Text className="text-xs">2.6 KM</Text>
-              </View>
-            </View>
-          </View>
-        </ScrollView>
 
         {/* best rating */}
         <View className="p-4">

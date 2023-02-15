@@ -33,11 +33,11 @@ const Carousel = ({ children }) => {
                 idx == carouselIndex
                   ? "bg-green-500 text-green-500 h-3 w-3 "
                   : "bg-gray-400 text-gray-400 h-2 w-2"
-              } rounded-full duration-50 ease-in-out`}
+              } rounded-full`}
               onPress={(e) => {
-                setCarouselIndex(idx);
+                setCarouselIndex(() => idx);
                 scrollViewRef.current?.scrollTo({
-                  x: idx * windowWidth,
+                  x: windowWidth * idx,
                 });
               }}
             ></TouchableOpacity>
@@ -45,7 +45,7 @@ const Carousel = ({ children }) => {
         })}
       </View>
     );
-    setCarouselPointer(() => tempComp);
+    setCarouselPointer(tempComp);
   }, [carouselIndex]);
 
   const handleScroll = (e) => {
@@ -55,7 +55,7 @@ const Carousel = ({ children }) => {
   };
   return (
     <SafeAreaView>
-      <View className="ml-4 py-2 space-y-4">
+      <View className="ml-4 py-2 space-y-2">
         <ScrollView
           className="flex-row space-x-4"
           horizontal={true}
@@ -63,7 +63,7 @@ const Carousel = ({ children }) => {
           onScroll={handleScroll}
           ref={scrollViewRef}
           onContentSizeChange={(width, _) => {
-            setTotalIndex(Math.ceil(width / windowWidth) - 1 || 0);
+            setTotalIndex(Math.ceil(width / windowWidth) || 0);
             setCarouselIndex(0);
           }}
         >
