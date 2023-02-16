@@ -14,14 +14,18 @@ export const Atc = ({ data }) => {
     <SafeAreaView>
       <TouchableOpacity
         className="flex-1 h-48 rounded-xl mr-4 flex-row justify-evenly items-end space-x-2 p-4"
-        style={{ backgroundColor: data.color, width: width - 30 }}
+        style={{ backgroundColor: data.color, width: width - 56 }}
       >
-        <Image
+        {/* <Image
           source={
             data.source
               ? data.source
               : require("../assets/order-food-online-1.png")
           }
+          className="h-36 w-36 rounded-lg bg-white"
+        /> */}
+        <Image
+          source={require("../assets/order-food-online-1.png")}
           className="h-36 w-36 rounded-lg bg-white"
         />
 

@@ -23,11 +23,9 @@ import {
 import { Atc, Category } from "../components/Card";
 import Carousel from "../components/Carousel";
 import Grid from "../components/Grid";
+import Footer from "../components/Footer";
 import sanityClient, { urlFor } from "../sanity";
-
-const navigationOptions = {
-  headerShown: false,
-};
+import { useNavigation } from "@react-navigation/native";
 
 const atcData = [
   {
@@ -52,10 +50,13 @@ const atcData = [
   },
 ];
 
-const Screen = ({ navigation }) => {
+const Screen = () => {
   const [featuredCategories, setFeaturedCategories] = useState([]);
+  const navigation = useNavigation();
   useLayoutEffect(() => {
-    navigation.setOptions(navigationOptions);
+    navigation.setOptions({
+      headerShown: false,
+    });
   }, []);
 
   useEffect(() => {
@@ -76,7 +77,7 @@ const Screen = ({ navigation }) => {
   }, []);
 
   return (
-    <View className="pt-2 bg-white">
+    <View className="pt-2 bg-white flex space-y-2 justify-between h-screen">
       {/* header */}
       <View className="pt-6">
         <View className="bg-white flex-row items-center space-x-2 p-2">
@@ -161,9 +162,22 @@ const Screen = ({ navigation }) => {
         >
           {featuredCategories.length > 0 &&
             featuredCategories[0].restaurants.map((restaurant) => (
-              <View
+              <TouchableOpacity
                 key={restaurant._id}
-                className="w-48 h-fit bg-white rounded-xl mb-2 shadow shadow-gray-400"
+                onPress={() => {
+                  navigation.navigate("Restaurant", {
+                    id: restaurant._id,
+                    name: restaurant.name,
+                    rating: restaurant.rating,
+                    short_description: restaurant.rating,
+                    address: restaurant.address,
+                    dishes: restaurant.dishes,
+                    lat: restaurant.lat,
+                    long: restaurant.long,
+                    image: restaurant.image,
+                  });
+                }}
+                className="w-48 h-56 bg-white rounded-xl mb-2 shadow shadow-gray-400"
               >
                 <Image
                   source={{ uri: urlFor(restaurant.image).url() }}
@@ -184,13 +198,13 @@ const Screen = ({ navigation }) => {
                     </Text>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
         </ScrollView>
 
         {/* choose from cuisine */}
 
-        <View className="p-4 flex-row items-center">
+        {/* <View className="p-4 flex-row items-center">
           <Text className="font-medium flex-1">Pilih dari jenis masakan</Text>
           <View className="bg-green-300 rounded-full p-2 px-4">
             <Text className="text-green-700 font-medium">Mulai</Text>
@@ -234,10 +248,10 @@ const Screen = ({ navigation }) => {
               </View>
             </ScrollView>
           </View>
-        </SafeAreaView>
+        </SafeAreaView> */}
 
         {/* best rating */}
-        <View className="p-4">
+        {/* <View className="p-4">
           <Text className="font-medium w-[75%]">Makan malam terjangkau</Text>
           <Text className="text-gray-400">Dijamin kenyang</Text>
         </View>
@@ -279,11 +293,11 @@ const Screen = ({ navigation }) => {
               </View>
             </ScrollView>
           </View>
-        </SafeAreaView>
+        </SafeAreaView> */}
 
         {/* populer di kawasan anda */}
 
-        <View className="p-4">
+        {/* <View className="p-4">
           <Text className="font-medium w-[75%]">Populer di sekitar anda</Text>
           <Text className="text-gray-400">sering dikunjungi orang</Text>
         </View>
@@ -343,7 +357,9 @@ const Screen = ({ navigation }) => {
             About
           </Text>
         </TouchableOpacity>
-        {/* featured 2 */}
+        
+
+
         <View className="p-4 flex-row">
           <Text className="flex-1 font-medium">Rekomendasi</Text>
           <View className="bg-green-300 rounded-full p-2 px-4">
@@ -393,8 +409,10 @@ const Screen = ({ navigation }) => {
               </View>
             </View>
           </View>
-        </View>
+        </View> */}
       </ScrollView>
+      {/* footer */}
+      {/* <Footer /> */}
     </View>
   );
 };

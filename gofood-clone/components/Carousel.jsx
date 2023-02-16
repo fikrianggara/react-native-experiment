@@ -37,7 +37,7 @@ const Carousel = ({ children }) => {
               onPress={(e) => {
                 setCarouselIndex(() => idx);
                 scrollViewRef.current?.scrollTo({
-                  x: windowWidth * idx,
+                  x: windowWidth * idx - 56,
                 });
               }}
             ></TouchableOpacity>

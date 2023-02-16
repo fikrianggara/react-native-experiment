@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AboutScreen from "./screens/About";
 import HomeScreen from "./screens/Home";
+import RestaurantScreen from "./screens/Restaurant";
 
 const Stack = createNativeStackNavigator();
 const config = {
@@ -30,6 +31,16 @@ export default function App() {
             },
           }}
         />
+        <Stack.Screen
+          name="Restaurant"
+          component={RestaurantScreen}
+          options={{
+            transitionSpec: {
+              open: config,
+              close: config,
+            },
+          }}
+        ></Stack.Screen>
         <Stack.Screen
           name="About"
           component={AboutScreen}
