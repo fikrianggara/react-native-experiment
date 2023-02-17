@@ -26,6 +26,11 @@ import Grid from "../components/Grid";
 import Footer from "../components/Footer";
 import sanityClient, { urlFor } from "../sanity";
 import { useNavigation } from "@react-navigation/native";
+import {
+  Promo as PromoCard,
+  Walktrough as WalktroughCard,
+} from "../components/Card";
+import { promos } from "./Promo";
 
 const atcData = [
   {
@@ -78,7 +83,7 @@ const Screen = () => {
   }, []);
 
   return (
-    <View className="pt-2 bg-white flex space-y-2 justify-between h-screen">
+    <View className="pt-2 bg-white space-y-2 justify-between min-h-screen">
       {/* header */}
       <View className="pt-6">
         <View className="bg-white flex-row items-center space-x-2 p-2">
@@ -102,28 +107,20 @@ const Screen = () => {
           </View>
         </View>
       </View>
-      <ScrollView showVerticalScrollIndicator={false} className="">
+
+      <ScrollView showVerticalScrollIndicator={false} className="flex-1">
         {/* atc */}
+
         <Carousel>
-          {atcData.map((item, idx) => (
-            <Atc key={idx} data={item} />
+          {atcData.map((atc, idx) => (
+            <Atc key={idx} atc={atc} />
           ))}
         </Carousel>
 
         {/* promo */}
-        <View className="p-2 px-4 ">
-          <View className="border-[1px] rounded-xl border-gray-200 p-3 flex-row space-x-2 items-center">
-            <View className="flex-row flex-1 space-x-2 items-center">
-              <View className="bg-yellow-200 h-8 aspect-square flex-row items-center rounded-full p-2">
-                <TicketIcon color="red" size={20} rotation={45} />
-              </View>
-              <Text>Tersedia 1 Promo</Text>
-            </View>
-            <View className="bg-red-600 h-6 aspect-square rounded-full flex-row items-center p-1">
-              <ArrowRightIcon size={16} color="white" />
-            </View>
-          </View>
-        </View>
+
+        <PromoCard promos={promos} />
+
         {/* categories */}
         <View className="space-x-2">
           <Grid
@@ -134,75 +131,72 @@ const Screen = () => {
         </View>
 
         {/* Walktrough */}
-        <View className="p-2 px-4">
-          <View className="border-[1px] rounded-xl border-gray-200 p-3 flex-row space-x-2 items-center drop-shadow">
-            <View className="flex-1">
-              <Text className="font-bold ">Baru di GoFood?</Text>
-              <Text className="text-md font-light">
-                kenalin fitur baru kami
-              </Text>
-            </View>
-            <View className="bg-green-300 rounded-full p-2 px-4">
-              <Text className="text-green-700 font-medium">Mulai</Text>
-            </View>
-          </View>
-        </View>
+        <WalktroughCard />
 
-        {/* featured 1 */}
-        <View className="p-4 ">
-          <Text className="font-medium w-[75%] text-lg leading-normal">
-            Rating tertinggi berdasarkan reviewer makanan
-          </Text>
-          <Text className="text-gray-400">Sponsor</Text>
-        </View>
-        <ScrollView
-          className="flex-row space-x-4 px-4 min-h-[50px]"
-          horizontal={true}
-          style="none"
-          showsHorizontalScrollIndicator={false}
-        >
-          {featuredCategories.length > 0 &&
-            featuredCategories[0].restaurants.map((restaurant) => (
-              <TouchableOpacity
-                key={restaurant._id}
-                onPress={() => {
-                  navigation.navigate("Restaurant", {
-                    id: restaurant._id,
-                    name: restaurant.name,
-                    rating: restaurant.rating,
-                    short_description: restaurant.rating,
-                    address: restaurant.address,
-                    dishes: restaurant.dishes,
-                    lat: restaurant.lat,
-                    long: restaurant.long,
-                    image: restaurant.image,
-                    category: restaurant.type.name,
-                  });
-                }}
-                className="w-48 h-56 bg-white rounded-xl mb-2 shadow shadow-gray-400"
-              >
-                <Image
-                  source={{ uri: urlFor(restaurant.image).url() }}
-                  className="bg-slate-600 h-36 rounded-xl"
-                ></Image>
-                <View className="p-2">
-                  <Text className="font-bold text-gray-600">
-                    {restaurant.name}
+        {/* {featured} */}
+        {featuredCategories.length > 0 &&
+          featuredCategories.map((featured) => {
+            return (
+              // featured header
+              <View key={featured._id}>
+                <View className="p-4 ">
+                  <Text className="font-medium w-[75%] text-lg leading-normal">
+                    {featured.name}
                   </Text>
-                  <View className="flex-row items-center">
-                    <StarIcon size={16} color="#4b5563" />
-                    <Text className="text-">{restaurant.rating}</Text>
-                  </View>
-                  <View className="flex-row items-center space-x-2">
-                    <MapPinIcon size={16} color="#9ca3af" />
-                    <Text className="text-xs text-gray-400">
-                      {restaurant.address}
-                    </Text>
-                  </View>
+                  <Text className="text-gray-400">
+                    {featured.short_description}
+                  </Text>
                 </View>
-              </TouchableOpacity>
-            ))}
-        </ScrollView>
+                <ScrollView
+                  className="flex-row space-x-4 px-4 min-h-[50px]"
+                  horizontal={true}
+                  style="none"
+                  showsHorizontalScrollIndicator={false}
+                >
+                  {featured.restaurants.map((restaurant) => (
+                    <TouchableOpacity
+                      key={restaurant._id}
+                      onPress={() => {
+                        navigation.navigate("Restaurant", {
+                          id: restaurant._id,
+                          name: restaurant.name,
+                          rating: restaurant.rating,
+                          short_description: restaurant.rating,
+                          address: restaurant.address,
+                          dishes: restaurant.dishes,
+                          lat: restaurant.lat,
+                          long: restaurant.long,
+                          image: restaurant.image,
+                          category: restaurant.type.name,
+                        });
+                      }}
+                      className="w-48 h-56 bg-white rounded-xl mb-2 shadow shadow-gray-400"
+                    >
+                      <Image
+                        source={{ uri: urlFor(restaurant.image).url() }}
+                        className="bg-slate-600 h-36 rounded-xl"
+                      ></Image>
+                      <View className="p-2">
+                        <Text className="font-bold text-gray-600">
+                          {restaurant.name}
+                        </Text>
+                        <View className="flex-row items-center">
+                          <StarIcon size={16} color="#4b5563" />
+                          <Text className="text-">{restaurant.rating}</Text>
+                        </View>
+                        <View className="flex-row items-center space-x-2">
+                          <MapPinIcon size={16} color="#9ca3af" />
+                          <Text className="text-xs text-gray-400">
+                            {restaurant.address}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            );
+          })}
 
         {/* choose from cuisine */}
 
@@ -414,7 +408,7 @@ const Screen = () => {
         </View> */}
       </ScrollView>
       {/* footer */}
-      {/* <Footer /> */}
+      <Footer />
     </View>
   );
 };
