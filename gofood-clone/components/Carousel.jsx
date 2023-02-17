@@ -1,12 +1,5 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
 import React, { useEffect, useRef, useState } from "react";
+import { Dimensions, ScrollView, TouchableOpacity, View } from "react-native";
 
 const Carousel = ({ children }) => {
   const [carouselIndex, setCarouselIndex] = useState(null);
@@ -54,7 +47,7 @@ const Carousel = ({ children }) => {
     setCarouselIndex(index);
   };
   return (
-    <SafeAreaView>
+    <View>
       <View className="ml-4 py-2 space-y-2">
         <ScrollView
           className="flex-row space-x-4"
@@ -72,7 +65,7 @@ const Carousel = ({ children }) => {
 
         {carouselPointer}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

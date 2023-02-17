@@ -2,8 +2,8 @@ import React from "react";
 import {
   Dimensions,
   Image,
-  SafeAreaView,
   Text,
+  Touchable,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -11,7 +11,7 @@ export const Atc = ({ data }) => {
   const width = Dimensions.get("window").width;
 
   return (
-    <SafeAreaView>
+    <View>
       <TouchableOpacity
         className="flex-1 h-48 rounded-xl mr-4 flex-row justify-evenly items-end space-x-2 p-4"
         style={{ backgroundColor: data.color, width: width - 56 }}
@@ -24,10 +24,10 @@ export const Atc = ({ data }) => {
           }
           className="h-36 w-36 rounded-lg bg-white"
         /> */}
-        <Image
+        {/* <Image
           source={require("../assets/order-food-online-1.png")}
           className="h-36 w-36 rounded-lg bg-white"
-        />
+        /> */}
 
         <Text
           className="flex-row text-white font-medium text-xl flex-1 text-left items-start"
@@ -36,7 +36,7 @@ export const Atc = ({ data }) => {
           {data.title}
         </Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 

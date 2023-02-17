@@ -67,7 +67,8 @@ const Screen = () => {
   ...,
   restaurants[]->{
     ...,
-    dishes[]->
+    dishes[]->,
+    type->
   },
 }`
       )
@@ -175,6 +176,7 @@ const Screen = () => {
                     lat: restaurant.lat,
                     long: restaurant.long,
                     image: restaurant.image,
+                    category: restaurant.type.name,
                   });
                 }}
                 className="w-48 h-56 bg-white rounded-xl mb-2 shadow shadow-gray-400"
