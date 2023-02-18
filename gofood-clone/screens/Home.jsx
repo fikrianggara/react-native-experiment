@@ -1,7 +1,7 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   Image,
-  SafeAreaView,
   ScrollView,
   Text,
   TextInput,
@@ -15,21 +15,17 @@ import {
   StarIcon,
   XMarkIcon,
 } from "react-native-heroicons/outline";
+import { HeartIcon } from "react-native-heroicons/solid";
 import {
-  ArrowRightIcon,
-  HeartIcon,
-  TicketIcon,
-} from "react-native-heroicons/solid";
-import { Atc, Category } from "../components/Card";
-import Carousel from "../components/Carousel";
-import Grid from "../components/Grid";
-import Footer from "../components/Footer";
-import sanityClient, { urlFor } from "../sanity";
-import { useNavigation } from "@react-navigation/native";
-import {
+  Atc,
+  Category,
   Promo as PromoCard,
   Walktrough as WalktroughCard,
 } from "../components/Card";
+import Carousel from "../components/Carousel";
+import Footer from "../components/Footer";
+import Grid from "../components/Grid";
+import sanityClient, { urlFor } from "../sanity";
 import { promos } from "./Promo";
 
 const atcData = [
@@ -83,7 +79,7 @@ const Screen = () => {
   }, []);
 
   return (
-    <View className="pt-2 bg-white space-y-2 justify-between min-h-screen">
+    <View className="pt-2 bg-white space-y-2 flex-1">
       {/* header */}
       <View className="pt-6">
         <View className="bg-white flex-row items-center space-x-2 p-2">
@@ -108,7 +104,10 @@ const Screen = () => {
         </View>
       </View>
 
-      <ScrollView showVerticalScrollIndicator={false} className="flex-1">
+      <ScrollView
+        showVerticalScrollIndicator={false}
+        className="border-b-[0.5px] border-gray-400"
+      >
         {/* atc */}
 
         <Carousel>
@@ -406,6 +405,10 @@ const Screen = () => {
             </View>
           </View>
         </View> */}
+
+        <View className="px-4 bg-white py-4 mt-2 ">
+          <View className="border-t-[0.5px] border-gray-400"></View>
+        </View>
       </ScrollView>
       {/* footer */}
       <Footer />

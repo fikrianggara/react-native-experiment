@@ -5,7 +5,6 @@ import {
   ArrowLeftIcon,
   ChevronRightIcon,
   ExclamationCircleIcon,
-  HeartIcon,
   MagnifyingGlassIcon,
   ShareIcon,
 } from "react-native-heroicons/outline";
@@ -14,8 +13,8 @@ import {
   MapPinIcon,
   StarIcon,
 } from "react-native-heroicons/solid";
+import { Dish as DishCard, Promo as PromoCard } from "../components/Card";
 import { RestaurantFooter } from "../components/Footer";
-import { Promo as PromoCard, Dish as DishCard } from "../components/Card";
 import { urlFor } from "../sanity";
 import { promos } from "./Promo";
 
@@ -53,7 +52,7 @@ const Screen = () => {
     }
   });
   return (
-    <View>
+    <View className="flex-1 h-screen bg-white relative">
       <ScrollView
         showsVerticalScrollIndicator={false}
         className="bg-gray-100 relative"
@@ -171,8 +170,8 @@ const Screen = () => {
             })}
           </View>
         </View>
+        <View className="py-8 bg-white"></View>
       </ScrollView>
-
       <RestaurantFooter />
     </View>
   );

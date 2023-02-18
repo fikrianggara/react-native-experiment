@@ -35,7 +35,7 @@ const Screen = ({ navigation }) => {
           </Text>
         </Pressable>
       </View>
-      <StatusBar style="auto" />
+      <StatusBar translucent backgroundColor="transparent" />
     </View>
   );
 };
